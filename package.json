@@ -1,0 +1,26 @@
+{
+  "name": "ssd-todomvc-angularjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ssd90",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "todomvc-app-css": "^2.0.6",
+    "todomvc-common": "^1.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com.ssd90/ssd-todomvc-angularjs.git"
+  },
+  "description": ""
+}
