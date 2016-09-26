@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
 	connect = require('gulp-connect'),
-	concat = require('gulp-concat'),
-	minify = require('gulp-minify');
+	concat = require('gulp-concat');
 
 var config = {
 	src: './src',
@@ -35,7 +34,6 @@ gulp.task('concatMin', function() {
 		config.src + '/js/directive.js'
 		])
 		.pipe(concat('app.js'))
-		.pipe(minify())
 		.pipe(gulp.dest(config.dist + '/js'))
 		.pipe(connect.reload());
 });
