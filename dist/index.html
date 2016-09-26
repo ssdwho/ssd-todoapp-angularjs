@@ -18,30 +18,30 @@
                         <input id="toggleAll" class="toggle-all" type="checkbox" ng-model="toggleAll" ng-change="checking()">
                         <label for="toggle-all">Hepsi Yapıldı</label>
                         <ul class="todo-list">
-                                <li ng-repeat="todo in todos track by $index" ng-class="{completed: todo.status, editing: edit}">
+                                <li ng-repeat="todo in todos track by $index" ng-class="{completed: todo.status, editing: edit}" ng-hide="todo.status == true && path == 'active' || todo.status == false && path == 'completed'">
                                         <div class="view">
                                                 <input type="checkbox" class="toggle" ng-model="todo.status" ng-change="update()">
-                                                <label ng-dblclick="edit = true" ng-init="edit = false" for="edit">{{todo.subject}}</label>
+                                                <label ng-dblclick="edit = true" ng-init="edit = false">{{todo.subject}}</label>
                                                 <button class="destroy" ng-click="removeOne($index)"></button>
                                         </div>
                                         <form ng-if="edit" ng-submit="$parent.edit = false; update()">
-                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false; update()" ng-model="todo.subject" escape="$parent.edit = false" ng-value="todo[$index].subject" focus>
+                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false; update()" ng-model="todo.subject" escape="$parent.edit = false; todo.subject = reset[$index].subject" focus>
                                         </form>
                                 </li>
                         </ul>
                 </section>
                 <footer class="footer" ng-hide="todos == 0">
-                        <span class="todo-count" ng-if="countStatus() > 0">{{countStatus()}} Tane Aktif</span>
+                        <span class="todo-count" ng-if="countStatus() > 0">{{countStatus()}} Yapılacak</span>
                         <span class="todo-count" ng-if="countStatus() == 0">Hepsi Tamam</span>
                         <ul class="filters">
                                 <li>
-                                        <a href="#/" class="selected">Tümü</a>
+                                        <a href="#/" ng-click="path = 'all'" ng-class="{selected: path == 'all'}">Tümü</a>
                                 </li>
                                 <li>
-                                        <a href="#/active">Aktif</a>
+                                        <a href="#/active" ng-click="path = 'active'" ng-class="{selected: path == 'active'}">Aktif</a>
                                 </li>
                                 <li>
-                                        <a href="#/completed">Bitmiş</a>
+                                        <a href="#/completed" ng-click="path = 'completed'" ng-class="{selected: path == 'completed'}">Bitmiş</a>
                                 </li>
                         </ul>
                         <button class="clear-completed" ng-if="countStatus() != todos.length" ng-click="removeAll()">Bitenleri Sil</button>
@@ -53,8 +53,6 @@
                 <p><a href="http://todomvc.com">TodoMVC</a></p>
         </footer>
         <script src="vendor/js/angular.min.js"></script>
-        <script src="vendor/js/angular-route.min.js"></script>
-        <script src="js/controller.js"></script>
-        <script src="js/directive.js"></script>
+        <script src="js/app-min.js"></script>
 </body>
 </html>
