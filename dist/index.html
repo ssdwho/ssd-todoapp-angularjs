@@ -10,7 +10,7 @@
         <section class="todoapp">
                 <header class="header">
                         <h1>todo</h1>
-                        <form ng-submit="add()">
+                        <form ng-submit="add();">
                                 <input class="new-todo" placeholder="Ne yapcan?" ng-model="subject" name="subject" autofocus>
                         </form>
                 </header>
@@ -24,8 +24,8 @@
                                                 <label ng-dblclick="edit = true" ng-init="edit = false">{{todo.subject}}</label>
                                                 <button class="destroy" ng-click="removeOne($index)"></button>
                                         </div>
-                                        <form ng-if="edit" ng-submit="$parent.edit = false; update()">
-                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false; update()" ng-model="todo.subject" ng-init="oldSubject = todo.subject" escape="$parent.edit = false; todo.subject = oldSubject" focus>
+                                        <form ng-if="edit" ng-submit="$parent.edit = false;">
+                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false;" ng-model="todo.subject" ng-init="oldSubject = todo.subject" escape="$parent.edit = false; todo.subject = oldSubject" focus>
                                         </form>
                                 </li>
                         </ul>
@@ -35,7 +35,7 @@
                         <span class="todo-count" ng-if="countStatus() == 0">Hepsi Tamam</span>
                         <ul class="filters">
                                 <li>
-                                        <a href="#/" ng-click="path = 'all'" ng-class="{selected: path == 'all'}">Tümü</a>
+                                        <a href="#/" ng-click="path = ''" ng-class="{selected: !path}">Tümü</a>
                                 </li>
                                 <li>
                                         <a href="#/active" ng-click="path = 'active'" ng-class="{selected: path == 'active'}">Aktif</a>
@@ -44,7 +44,7 @@
                                         <a href="#/completed" ng-click="path = 'completed'" ng-class="{selected: path == 'completed'}">Bitmiş</a>
                                 </li>
                         </ul>
-                        <button class="clear-completed" ng-if="countStatus() != todos.length" ng-click="removeAll()">Bitenleri Sil</button>
+                        <button class="clear-completed" ng-if="countStatus() != todos.length" ng-click="removeDoneTodos()">Bitenleri Sil</button>
                 </footer>
         </section>
         <footer class="info">
