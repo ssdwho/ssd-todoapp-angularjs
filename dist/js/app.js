@@ -13,46 +13,49 @@
 
 	angular
 		.module('todoApp')
-		.controller('control', control)
+		.controller('controller', control)
 
-	function control($scope, $location){
-		$scope.todos = JSON.parse(localStorage.getItem("todoList")) || [];
+	function control($scope){
+		var _this = this;
+		this.todos = JSON.parse(localStorage.getItem("todoList")) || [];
 
-		$scope.$watch('todos', function(newValue, oldValue) {
+		$scope.$watch(function() {
+			return _this.todos;
+		}, function(newValue, oldValue) {
 			if (angular.isObject(newValue)) {
 				localStorage.setItem('todoList', JSON.stringify(newValue));
-				$scope.toggleAll = !!$scope.countStatus();
+				_this.toggleAll = !!_this.countStatus();
 			}
 		}, true);
 
 		/** Add Todo */
-		$scope.add = function(){
-			$scope.todos.push({ "subject": $scope.subject, "status": false });
-			$scope.subject = '';
+		this.add = function(){
+			this.todos.push({ "subject": this.subject, "status": false });
+			this.subject = '';
 		}
 
 		/** Counter */
-		$scope.countStatus = function() {
-			return $scope.todos.filter(function(todo) { return todo.status == false; }).length;
+		this.countStatus = function() {
+			return this.todos.filter(function(todo) { return todo.status == false; }).length;
 		}
 
 		/** Checking */
-		$scope.checking = function() {
-			$scope.todos = $scope.todos.map(function(todo) {
-				todo.status = $scope.toggleAll;
+		this.checking = function() {
+			this.todos = this.todos.map(function(todo) {
+				todo.status = _this.toggleAll;
 
 				return todo;
 			});
 		}
 
 		/** Remove One Todo */
-		$scope.removeOne = function(index) {
-			$scope.todos.splice(index, 1);
+		this.removeOne = function(index) {
+			this.todos.splice(index, 1);
 		}
 
 		/** Remove Done Todos */
-		$scope.removeDoneTodos = function() {
-			$scope.todos = $scope.todos.filter(function(todo) {
+		this.removeDoneTodos = function() {
+			this.todos = this.todos.filter(function(todo) {
 				return todo.status === false;
 			});
 		}

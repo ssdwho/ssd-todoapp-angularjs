@@ -6,33 +6,33 @@
         <link rel="stylesheet" href="vendor/css/base.css">
         <link rel="stylesheet" href="vendor/css/index.css">
 </head>
-<body ng-app="todoApp" ng-controller="control">
+<body ng-app="todoApp" ng-controller="controller as _ctrl">
         <section class="todoapp">
                 <header class="header">
                         <h1>todo</h1>
                         <form ng-submit="add();">
-                                <input class="new-todo" placeholder="Ne yapcan?" ng-model="subject" name="subject" autofocus>
+                                <input class="new-todo" placeholder="Ne yapcan?" ng-model="_ctrl.subject" name="subject" autofocus>
                         </form>
                 </header>
                 <section class="main">
-                        <input id="toggleAll" class="toggle-all" type="checkbox" ng-model="toggleAll" ng-change="checking()">
+                        <input id="toggleAll" class="toggle-all" type="checkbox" ng-model="_ctrl.toggleAll" ng-change="_ctrl.checking()">
                         <label for="toggle-all">Hepsi Yapıldı</label>
                         <ul class="todo-list">
-                                <li ng-repeat="todo in todos track by $index" ng-class="{completed: todo.status, editing: edit}" ng-hide="todo.status == true && path == 'active' || todo.status == false && path == 'completed'">
+                                <li ng-repeat="todo in _ctrl.todos track by $index" ng-class="{completed: todo.status, editing: edit}" ng-hide="todo.status == true && path == 'active' || todo.status == false && path == 'completed'">
                                         <div class="view">
-                                                <input type="checkbox" class="toggle" ng-model="todo.status" ng-change="update()">
+                                                <input type="checkbox" class="toggle" ng-model="todo.status" ng-change="_ctrl.update()">
                                                 <label ng-dblclick="edit = true" ng-init="edit = false">{{todo.subject}}</label>
-                                                <button class="destroy" ng-click="removeOne($index)"></button>
+                                                <button class="destroy" ng-click="_ctrl.removeOne($index)"></button>
                                         </div>
-                                        <form ng-if="edit" ng-submit="$parent.edit = false;">
+                                        <form ng-if="edit" ng-submit="$parent.edit = false; _ctrl.update()">
                                                 <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false;" ng-model="todo.subject" ng-init="oldSubject = todo.subject" escape="$parent.edit = false; todo.subject = oldSubject" focus>
                                         </form>
                                 </li>
                         </ul>
                 </section>
                 <footer class="footer" ng-hide="todos == 0">
-                        <span class="todo-count" ng-if="countStatus() > 0">{{countStatus()}} Yapılacak</span>
-                        <span class="todo-count" ng-if="countStatus() == 0">Hepsi Tamam</span>
+                        <span class="todo-count" ng-if="_ctrl.countStatus() > 0">{{_ctrl.countStatus()}} Yapılacak</span>
+                        <span class="todo-count" ng-if="_ctrl.countStatus() == 0">Hepsi Tamam</span>
                         <ul class="filters">
                                 <li>
                                         <a href="#/" ng-click="path = ''" ng-class="{selected: !path}">Tümü</a>
@@ -44,7 +44,7 @@
                                         <a href="#/completed" ng-click="path = 'completed'" ng-class="{selected: path == 'completed'}">Bitmiş</a>
                                 </li>
                         </ul>
-                        <button class="clear-completed" ng-if="countStatus() != todos.length" ng-click="removeDoneTodos()">Bitenleri Sil</button>
+                        <button class="clear-completed" ng-if="_ctrl.countStatus() != todos.length" ng-click="_ctrl.removeDoneTodos()">Bitenleri Sil</button>
                 </footer>
         </section>
         <footer class="info">
