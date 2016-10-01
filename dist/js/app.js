@@ -16,25 +16,25 @@
 		.controller('control', control)
 
 	function control($scope, $location){
-		$scope.todosJSON = localStorage.getItem("todoList");
-		$scope.todos = (localStorage.getItem("todoList") !== null) ? JSON.parse($scope.todosJSON) : [];
-		$scope.reset = (localStorage.getItem("todoList") !== null) ? JSON.parse($scope.todosJSON) : [];
-		localStorage.setItem("todoList", JSON.stringify($scope.todos));
+		var todosJson = JSON.parse(localStorage.getItem("todoList")) || [];
+
+		$scope.todos = todosJson;
+
+		$scope.$watch('todos', function(newValue, oldValue) {
+			if (angular.isObject(newValue)) {
+				localStorage.setItem('todoList', JSON.stringify(newValue));
+			}
+		}, true);
+
 		$scope.path = $location.path().split("/")[1] || "all";
 
 		/** Add Todo */
 		$scope.add = function(){
-			$scope.todos.push({"subject": $scope.subject, "status": false});
-			$scope.subject = "";
-			localStorage.setItem("todoList", JSON.stringify($scope.todos));
-
-			$scope.todosJSON = localStorage.getItem("todoList");
-			$scope.reset = (localStorage.getItem("todoList") !== null) ? JSON.parse($scope.todosJSON) : [];
+			$scope.todos.push({ "subject": $scope.subject, "status": false });
 		}
 
 		/** Todo Update */
 		$scope.update = function(){
-			localStorage.setItem("todoList", JSON.stringify($scope.todos));
 			if ($scope.countStatus() == 0) {
 				$scope.toggleAll = true;
 			} else {
@@ -59,27 +59,16 @@
 
 		/** Checking */
 		$scope.checking = function(){
-			if ($scope.toggleAll == true) {
-				var allTodos = $scope.todos;
-				$scope.todos = [];
-				angular.forEach(allTodos, function(todo){
-					$scope.todos.push({"subject": todo.subject, "status": true});
-				});
-				localStorage.setItem("todoList", JSON.stringify($scope.todos));
-			} else {
-				var allTodos = $scope.todos;
-				$scope.todos = [];
-				angular.forEach(allTodos, function(todo){
-					$scope.todos.push({"subject": todo.subject, "status": false});
-				});
-				localStorage.setItem("todoList", JSON.stringify($scope.todos));
-			}
+			$scope.todos = $scope.todos.map(function(todo) {
+				todo.status = $scope.toggleAll;
+
+				return todo;
+			});
 		}
 
 		/** Remove One Todo */
 		$scope.removeOne = function(a) {
 			$scope.todos.splice(a, 1);
-			localStorage.setItem("todoList", JSON.stringify($scope.todos));
 			if ($scope.countStatus() == 0 && $scope.todos != 0) {
 				$scope.toggleAll = true;
 			} else if ($scope.todos == 0) {
@@ -99,10 +88,10 @@
 				}
 			});
 			$scope.toggleAll = false;
-			localStorage.setItem("todoList", JSON.stringify($scope.todos));
 		}
 	}
 }());
+
 (function () {
 	'use strict';
 

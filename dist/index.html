@@ -25,7 +25,7 @@
                                                 <button class="destroy" ng-click="removeOne($index)"></button>
                                         </div>
                                         <form ng-if="edit" ng-submit="$parent.edit = false; update()">
-                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false; update()" ng-model="todo.subject" escape="$parent.edit = false; todo.subject = reset[$index].subject" focus>
+                                                <input type="text" id="edit" class="edit" ng-blur="$parent.edit = false; update()" ng-model="todo.subject" ng-init="oldSubject = todo.subject" escape="$parent.edit = false; todo.subject = oldSubject" focus>
                                         </form>
                                 </li>
                         </ul>
